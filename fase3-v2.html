@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Fase3-V2</title>
+</head>
+<body>
+  <h1>Conversor de numeros a letras</h1>
+  <p id="number"></p>
+  <script>
+
+    var unidades=[" ","uno","dos","tres","cuatro","cinco","seis","siete","ocho","nueve"];
+    var decenas=["","diez","once","doce","trece","catorce","quince","dieciséis","diecisiete","dieciocho", "diecinueve"];
+    var decenas2=["veinte","veintiuno","veintidos","veintitres","veinticuatro","veinticinco","veintiseis","veintisiete", "veintiocho", "veintinueve"];
+    var ceros=["","","","trenta","cuarenta","cincuenta","sesenta","setenta","ochenta","noventa",""]
+    var centenas=[" ","ciento","doscientos","trecientos","cuatrocientos","quinientos", "seiscientos", "setecientos", "ochocientos", "novecientos"];
+
+
+    var num = prompt("Introduce tu numero: ");
+    console.log(devolNom(num));
+    document.getElementById('number').innerHTML = devolNom(num);
+
+    // <<----------FUNCTIONS-------------------->
+
+    function devolNom(num){
+      var array=num.split(" ");
+      var salida=0;
+      console.log(array);
+
+      for(var i=0, x=0; i<array.length; i++){
+        if(unidades.includes(array[i])){
+          salida+= unidad(array[i]);
+        }else if (decenas.includes(array[i]) || decenas2.includes(array[i])) {
+          salida+= decena(array[i]);
+        }else if (ceros.includes(array[i])) {
+          salida+= cero(array,i);
+        }else if (centenas.includes(array[i])) {
+          salida+= centena(array,i);
+        }else{return "numero invalido";}
+      }
+      return salida;
+    }//End devolNom
+
+    function unidad(num){
+      for(var i=0;i<unidades.length; i++){
+        if(unidades[i]==num)
+        return i;
+      }
+    }//End unidad
+
+
+    function decena(num, indice){
+      for(var i=0;i<decenas.length; i++){
+        if(decenas[i]==num)
+        return i+9;
+        if(decenas2[i]==num)
+        return i+20;
+      }
+    }//end Decena
+
+    function cero(num, indice){
+      for(var j=0; j<ceros.length; j++){
+        if(num[indice]==ceros[j])
+          return j*10;
+        }
+    }//End cero
+
+    function centena(num,indice){
+        for(var j=0; j<ceros.length; j++){
+          if(num[indice]==centenas[j])
+            return j*100;
+          }
+    }//End centena
+
+  </script>
+
+</body>
+</html>
