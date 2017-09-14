@@ -7,7 +7,7 @@
   <title>Fase3-V2</title>
 </head>
 <body>
-  <h1>Conversor de numeros a letras</h1>
+  <h1>Conversor de letras a numeros</h1>
   <p id="number"></p>
   <script>
 
@@ -16,7 +16,8 @@
     var decenas2=["veinte","veintiuno","veintidos","veintitres","veinticuatro","veinticinco","veintiseis","veintisiete", "veintiocho", "veintinueve"];
     var ceros=["","","","trenta","cuarenta","cincuenta","sesenta","setenta","ochenta","noventa",""]
     var centenas=[" ","ciento","doscientos","trecientos","cuatrocientos","quinientos", "seiscientos", "setecientos", "ochocientos", "novecientos"];
-
+    var milesimas = ["mil", "un mil"];
+    var millones=["","millon","millones"];
 
     var num = prompt("Introduce tu numero: ");
     console.log(devolNom(num));
@@ -38,7 +39,12 @@
           salida+= cero(array,i);
         }else if (centenas.includes(array[i])) {
           salida+= centena(array,i);
-        }else{return "numero invalido";}
+        }else if (milesimas.includes(array[i])) {
+          salida+= miles(array,i,salida);
+        }else if (millones.includes(array[i])) {
+          salida+= millon(array,i,salida);
+        }
+        // else{return "numero invalido";}
       }
       return salida;
     }//End devolNom
@@ -73,6 +79,27 @@
             return j*100;
           }
     }//End centena
+
+    function miles(num,indice,salida){
+        if(unidades.includes(num[indice]))
+        return unidad(num)*1000;
+        else if(unidades.includes(num[indice-1]) || decenas.includes(num[indice-1]) || centenas.includes(num[indice-1]) || ceros.includes(num[indice-1])){
+          var salida=salida.toString(), tresAnteriores="";
+          for(var i=0; i<3;i++){
+            tresAnteriores+=salida[(salida.length-3)+i];
+          }
+          return tresAnteriores*1000-tresAnteriores;
+        }else return 1000;
+    }//End miles
+
+    function millon(num,indice,salida){
+        if(unidades.includes(num[indice]))
+        return unidad(num)*1000000;
+        else if(unidades.includes(num[indice-1]) || decenas.includes(num[indice-1]) || centenas.includes(num[indice-1]) || ceros.includes(num[indice-1]) || milesimas.includes(num[indice-1])){
+          console.log(salida);
+          return ((salida*1000000-salida));
+        }else return 1000000;
+    } //end millon
 
   </script>
 
