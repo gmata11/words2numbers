@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Conversor words2numbers</title>
+</head>
+<body>
+  <h1>Conversor de letras a numeros</h1>
+  <p>Letras Introducidas: </p>
+  <p id="introduce"></p>
+  <p>Numero Convertido: </p>
+  <p id="number"></p>
+  <script>
+
+    var unidades=["","uno","dos","tres","cuatro","cinco","seis","siete","ocho","nueve","un"];
+    var decenas=["","diez","once","doce","trece","catorce","quince","dieciséis","diecisiete","dieciocho", "diecinueve"];
+    var decenas2=["veinte","veintiuno","veintidos","veintitres","veinticuatro","veinticinco","veintiseis","veintisiete", "veintiocho", "veintinueve"];
+    var ceros=["","","","trenta","cuarenta","cincuenta","sesenta","setenta","ochenta","noventa",""]
+    var centenas=["cien","ciento","doscientos","trescientos","cuatrocientos","quinientos", "seiscientos", "setecientos", "ochocientos", "novecientos"];
+    var milesimas=["un mil", "mil"];
+    var millones=["","millon","millones"];
+
+    var num = prompt("Introduce tu numero: ");
+    // console.log(conInv(num));
+    document.getElementById('introduce').innerHTML = num;
+    document.getElementById('number').innerHTML = conInv(num);
+
+
+    function conInv(num){
+      var array=num.split(" ");
+      var salida=0;
+      console.log(array);
+      for(var i=0, x=0; i<array.length; i++){
+        if(unidades.includes(array[i])){
+          salida+= unidad(array[i]);
+        }else if (decenas.includes(array[i]) || decenas2.includes(array[i])) {
+          salida+= decena(array[i]);
+        }else if (ceros.includes(array[i])) {
+          salida+= cero(array,i);
+        }else if (centenas.includes(array[i])) {
+          salida+= centena(array,i);
+        }else if (milesimas.includes(array[i])) {
+          salida+= miles(array,i,salida);
+        }else if (millones.includes(array[i])) {
+          salida+= millon(array,i,salida);
+        }
+      }
+      return salida;
+
+    }//End conInv
+
+
+    function unidad(num){
+      for(var i=0;i<unidades.length; i++){
+        if(num=="un")
+        return 1;
+        if(unidades[i]==num)
+        return i;
+      }
+    }//end unidad
+
+    function decena(num, indice){
+      for(var i=0;i<decenas.length; i++){
+        if(decenas[i]==num)
+        return i+9;
+        if(decenas2[i]==num)
+        return i+20;
+      }
+    }//end decena
+
+
+    function cero(num, indice){
+
+        for(var j=0; j<ceros.length; j++){
+          if(num[indice]==ceros[j])
+            return j*10;
+          }
+
+    }//end cero
+
+
+    function centena(num,indice){
+      if(num[indice]=="cien")
+      return 100;
+        for(var j=0; j<ceros.length; j++){
+          if(num[indice]==centenas[j])
+            return j*100;
+          }
+    }//end centena
+
+    function miles(num,indice,salida){
+        if(unidades.includes(num[indice]))
+        return unidad(num)*1000;
+        else if(unidades.includes(num[indice-1]) || decenas.includes(num[indice-1]) || centenas.includes(num[indice-1]) || ceros.includes(num[indice-1])){
+          var salida=salida.toString(), tresAnteriores="";
+          for(var i=0; i<3;i++){
+            if(((salida.length-3)+i)>=0)
+            tresAnteriores+=salida[(salida.length-3)+i];
+          }
+          return tresAnteriores*1000-tresAnteriores;
+        }else return 1000;
+    }//end miles
+
+    function millon(num,indice,salida){
+        if(unidades.includes(num[indice]))
+        return unidad(num)*1000000;
+        else if(unidades.includes(num[indice-1]) || decenas.includes(num[indice-1]) || centenas.includes(num[indice-1]) || ceros.includes(num[indice-1]) || milesimas.includes(num[indice-1])){
+          console.log(salida);
+          return ((salida*1000000-salida));
+        }else return 1000000;
+    }//end millon
+
+  </script>
+
+</body>
+</html>
